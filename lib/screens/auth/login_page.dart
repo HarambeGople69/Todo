@@ -1,10 +1,12 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:todo/authentication/authentication.dart';
 import 'package:todo/screens/auth/register_page.dart';
-
+import 'package:todo/utils/styles.dart';
+import 'package:todo/widgets/our_gradient_button.dart';
 import 'package:todo/widgets/our_sized_box.dart';
 import 'package:todo/widgets/our_textfield.dart';
 import 'package:todo/widgets/password_field.dart';
@@ -20,10 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   final _email_Controller = TextEditingController();
   final _password_Controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  final TapGestureRecognizer OnTap = TapGestureRecognizer()
-    ..onTap = () {
-      print("Its tapped");
-    };
+
   String emailValue = "";
   String passwordValue = "";
   bool authenticate = false;
@@ -48,14 +47,30 @@ class _LoginPageState extends State<LoginPage> {
                 children: [
                   // Spacer(),
                   SizedBox(
-                    height: ScreenUtil().setSp(145),
+                    height: ScreenUtil().setSp(100),
                   ),
+                  SizedBox(
+                    // width: 250.0,
+                    child: DefaultTextStyle(
+                      style: const TextStyle(),
+                      child: AnimatedTextKit(
+                        totalRepeatCount: 1000,
+                        animatedTexts: [
+                          TyperAnimatedText(
+                            'Get Organized',
+                            textStyle: BoldText,
+                            speed: Duration(
+                              milliseconds: 250,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  OurSizedHeight(),
                   Text(
                     "Login",
-                    style: TextStyle(
-                      fontSize: ScreenUtil().setSp(40),
-                      fontWeight: FontWeight.w500,
-                    ),
+                    style: MidBoldText,
                   ),
                   OurSizedHeight(),
                   Text(
@@ -116,59 +131,22 @@ class _LoginPageState extends State<LoginPage> {
                   Row(
                     children: [
                       Spacer(),
-                      InkWell(
-                        onTap: () async {
-                          setState(() {
-                            authenticate = true;
-                            print(authenticate);
-                          });
-                          if (_formKey.currentState!.validate()) {
-                            await Auth().loginAccount(
-                                emailValue, passwordValue, context);
-                          }
-                          setState(() {
-                            authenticate = false;
-                            print(authenticate);
-                          });
-                        },
-                        child: Container(
-                          padding: EdgeInsets.all(
-                            15,
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              30,
-                            ),
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(
-                                  0xfff7c457,
-                                ),
-                                Color(
-                                  0xfffea23b,
-                                ),
-                              ],
-                              begin: Alignment.centerLeft,
-                              end: Alignment.centerRight,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Text(
-                                "LOGIN ",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.w800,
-                                ),
-                              ),
-                              Icon(
-                                Icons.arrow_forward,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      OurGradientButton(
+                          function: () async {
+                            setState(() {
+                              authenticate = true;
+                              print(authenticate);
+                            });
+                            if (_formKey.currentState!.validate()) {
+                              await Auth().loginAccount(
+                                  emailValue, passwordValue, context);
+                            }
+                            setState(() {
+                              authenticate = false;
+                              print(authenticate);
+                            });
+                          },
+                          title: "Login"),
                     ],
                   ),
 

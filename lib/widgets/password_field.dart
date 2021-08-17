@@ -8,7 +8,6 @@ class PasswordForm extends StatelessWidget {
   final Function(String) validator;
   final Function(String)? onchange;
 
-
   final TextEditingController? controller;
 
   const PasswordForm({
@@ -17,15 +16,15 @@ class PasswordForm extends StatelessWidget {
     this.changesee,
     this.controller,
     this.title,
-    required this.validator, this.onchange,
+    required this.validator,
+    this.onchange,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: (String? value)=> onchange!(value!),
-
+        onChanged: (String? value) => onchange!(value!),
         validator: (String? value) => validator(value!),
-        style: TextStyle(fontSize: ScreenUtil().setSp(20)),
+        style: TextStyle(fontSize: ScreenUtil().setSp(15)),
         controller: controller,
         obscureText: see!,
         decoration: InputDecoration(
@@ -46,11 +45,20 @@ class PasswordForm extends StatelessWidget {
                       size: ScreenUtil().setSp(20),
                     ))),
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(80),
+            borderRadius: BorderRadius.circular(
+              ScreenUtil().setSp(
+                30,
+              ),
+            ),
           ),
           labelText: title,
           // labelStyle: paratext,
           errorStyle: TextStyle(
+            fontSize: ScreenUtil().setSp(
+              15,
+            ),
+          ),
+          labelStyle: TextStyle(
             fontSize: ScreenUtil().setSp(
               15,
             ),
