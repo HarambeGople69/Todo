@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:colorlizer/colorlizer.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -22,7 +23,7 @@ class _LoginPageState extends State<LoginPage> {
   final _email_Controller = TextEditingController();
   final _password_Controller = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-
+  ColorLizer colorlizer = ColorLizer();
   String emailValue = "";
   String passwordValue = "";
   bool authenticate = false;
@@ -58,7 +59,10 @@ class _LoginPageState extends State<LoginPage> {
                         animatedTexts: [
                           TyperAnimatedText(
                             'Get Organized',
-                            textStyle: BoldText,
+                            textStyle: BoldText.copyWith(
+                              color:
+                                  colorlizer.getRandomColors()!.withOpacity(1),
+                            ),
                             speed: Duration(
                               milliseconds: 250,
                             ),

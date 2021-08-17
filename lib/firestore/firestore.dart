@@ -1,18 +1,26 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:colorlizer/colorlizer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class Firestore {
-  addUser(String uid, String email) async {
+  ColorLizer colorlizer = ColorLizer();
+
+  addUser(String uid, String email, String name) async {
     try {
       await FirebaseFirestore.instance
           .collection("Users")
           .doc(uid)
           .collection("User Detail")
-          .add({"email": email}).then(
-              (value) => print("Done =========================="));
+          .add({
+        "email": email,
+        "name": name,
+        "AddedOn": DateFormat('yyy-MM--dd').format(
+          DateTime.now(),
+        ),
+      }).then((value) => print("Done =========================="));
     } catch (e) {
       print(e);
     }
@@ -35,7 +43,7 @@ class Firestore {
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.green,
+            backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),
             content: Text(
               "Task added",
               style: TextStyle(fontSize: ScreenUtil().setSp(15)),
@@ -71,7 +79,7 @@ class Firestore {
           .then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            backgroundColor: Colors.green,
+            backgroundColor: Colors.red,
             content: Text(
               "Task Deleted",
               style: TextStyle(fontSize: ScreenUtil().setSp(15)),

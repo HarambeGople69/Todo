@@ -57,11 +57,15 @@ class _HomePageState extends State<HomePage> {
                     animatedTexts: [
                       FadeAnimatedText(
                         'Stop procrastinating ',
-                        textStyle: MidBoldText,
+                        textStyle: MidBoldText.copyWith(
+                          color: colorlizer.getRandomColors()!.withOpacity(1),
+                        ),
                       ),
                       FadeAnimatedText(
                         'Get started',
-                        textStyle: MidBoldText,
+                        textStyle: MidBoldText.copyWith(
+                          color: colorlizer.getRandomColors()!.withOpacity(1),
+                        ),
                       ),
                     ],
                   ),
@@ -111,11 +115,17 @@ class _HomePageState extends State<HomePage> {
                         }
                       }
                       return Center(
-                        child: Image.asset(
-                          "images/notask.png",
-                          height: ScreenUtil().setSp(400),
-                          width: ScreenUtil().setSp(400),
-                          // fit: BoxFit.cover,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "images/notask.png",
+                              height: ScreenUtil().setSp(200),
+                              width: ScreenUtil().setSp(200),
+                              fit: BoxFit.contain,
+                            ),
+                            Text("No task", style: SmallBoldText)
+                          ],
                         ),
                       );
                     }),

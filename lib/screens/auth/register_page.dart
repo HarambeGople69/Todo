@@ -22,8 +22,10 @@ class _SignUpState extends State<SignUp> {
   String emailValue = "";
   String passwordValue = "";
   String confirmpasswordValue = "";
+  String name = "";
   TextEditingController _password_Controller = TextEditingController();
   TextEditingController _password_confirm_Controller = TextEditingController();
+  TextEditingController nameController = TextEditingController();
   bool see = true;
   bool see_confirm = true;
   bool authenticate = false;
@@ -49,7 +51,6 @@ class _SignUpState extends State<SignUp> {
                   height: ScreenUtil().setSp(105),
                 ),
                 Text("Create account", style: MidBoldText),
-                OurSizedHeight(),
 
                 OurSizedHeight(),
                 CustomTextField(
@@ -71,6 +72,25 @@ class _SignUpState extends State<SignUp> {
                   controller: _email_Controller,
                 ),
                 OurSizedHeight(),
+                CustomTextField(
+                  type: TextInputType.name,
+                  title: "Full name",
+                  icon: Icons.person,
+                  validator: (value) {
+                    if (value.isNotEmpty) {
+                      return null;
+                    } else {
+                      return "Can't be empty";
+                    }
+                  },
+                  onchange: (value) {
+                    setState(() {
+                      name = value;
+                    });
+                  },
+                  controller: nameController,
+                ),
+                OurSizedHeight(),
                 PasswordForm(
                   onchange: (value) {
                     setState(() {
@@ -81,7 +101,7 @@ class _SignUpState extends State<SignUp> {
                     if (value.isNotEmpty) {
                       return null;
                     } else {
-                      return "Cannot be empty";
+                      return "Can't be empty";
                     }
                   },
                   title: "Password",
@@ -132,7 +152,11 @@ class _SignUpState extends State<SignUp> {
                             print(passwordValue);
                             print(_password_confirm_Controller.text);
                             await Auth().createAccount(
-                                emailValue, passwordValue, context);
+                              emailValue,
+                              passwordValue,
+                              name,
+                              context,
+                            );
                           }
                           setState(() {
                             authenticate = false;

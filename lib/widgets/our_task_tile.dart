@@ -46,10 +46,10 @@ class OurListtile extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(colors: [
-              colorlizer.getRandomColors()!.withOpacity(0.7),
-              colorlizer.getRandomColors()!.withOpacity(0.7),
+              colorlizer.getRandomColors()!.withOpacity(0.8),
+              colorlizer.getRandomColors()!.withOpacity(0.8),
             ]),
-            color: colorlizer.getRandomColors()!.withOpacity(0.5),
+            color: colorlizer.getRandomColors()!.withOpacity(0.6),
             borderRadius: BorderRadius.circular(
               ScreenUtil().setSp(20),
             ),

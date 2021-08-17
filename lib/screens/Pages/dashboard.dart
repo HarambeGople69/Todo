@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:todo/authentication/authentication.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:todo/screens/Pages/homepage.dart';
+import 'package:todo/screens/Pages/setting_page.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -43,17 +44,7 @@ class _DashboardState extends State<Dashboard> {
             Container(
               color: Colors.green,
             ),
-            Container(
-              color: Colors.blue,
-              child: ElevatedButton(
-                onPressed: () async {
-                  await Auth().logout();
-                },
-                child: Text(
-                  "Logout",
-                ),
-              ),
-            ),
+            SettingPage()
           ],
         ),
       ),
