@@ -27,8 +27,9 @@ class _LoginPageState extends State<LoginPage> {
   String emailValue = "";
   String passwordValue = "";
   bool authenticate = false;
-
   bool see = true;
+  final FocusNode emailNode = FocusNode();
+  final FocusNode passwordNode = FocusNode();
 
   @override
   Widget build(BuildContext context) {
@@ -88,6 +89,9 @@ class _LoginPageState extends State<LoginPage> {
                   OurSizedHeight(),
 
                   CustomTextField(
+                    number: 0,
+                    start: emailNode,
+                    end: passwordNode,
                     onchange: (value) {
                       setState(() {
                         emailValue = value;
@@ -109,6 +113,8 @@ class _LoginPageState extends State<LoginPage> {
                   OurSizedHeight(),
 
                   PasswordForm(
+                    number: 1,
+                    start: passwordNode,
                     onchange: (value) {
                       setState(() {
                         passwordValue = value;

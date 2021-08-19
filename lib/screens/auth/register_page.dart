@@ -23,6 +23,10 @@ class _SignUpState extends State<SignUp> {
   String passwordValue = "";
   String confirmpasswordValue = "";
   String name = "";
+  final FocusNode emailNode = FocusNode();
+  final FocusNode nameNode = FocusNode();
+  final FocusNode passwordNode = FocusNode();
+  final FocusNode confirmNode = FocusNode();
   TextEditingController _password_Controller = TextEditingController();
   TextEditingController _password_confirm_Controller = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -54,6 +58,9 @@ class _SignUpState extends State<SignUp> {
 
                 OurSizedHeight(),
                 CustomTextField(
+                  number: 0,
+                  start: emailNode,
+                  end: nameNode,
                   type: TextInputType.emailAddress,
                   title: "Email",
                   icon: Icons.email,
@@ -73,6 +80,9 @@ class _SignUpState extends State<SignUp> {
                 ),
                 OurSizedHeight(),
                 CustomTextField(
+                  number: 0,
+                  start: nameNode,
+                  end: passwordNode,
                   type: TextInputType.name,
                   title: "Full name",
                   icon: Icons.person,
@@ -92,6 +102,9 @@ class _SignUpState extends State<SignUp> {
                 ),
                 OurSizedHeight(),
                 PasswordForm(
+                  number: 0,
+                  start: passwordNode,
+                  end: confirmNode,
                   onchange: (value) {
                     setState(() {
                       passwordValue = value;
@@ -115,6 +128,10 @@ class _SignUpState extends State<SignUp> {
                 ),
                 OurSizedHeight(),
                 PasswordForm(
+                  start: confirmNode,
+                  number: 1,
+                  // start: confirmNode,
+                  // end: confirmNode,
                   onchange: (value) {
                     setState(() {
                       confirmpasswordValue = value;

@@ -16,6 +16,8 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
+  final FocusNode titleNode = FocusNode();
+  final FocusNode descNode = FocusNode();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -58,6 +60,9 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     OurSizedHeight(),
                     CustomTextField(
+                      number: 0,
+                      start: titleNode,
+                      end: descNode,
                       onchange: (value) {
                         setState(() {
                           title = value;
@@ -81,6 +86,8 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     OurSizedHeight(),
                     CustomTextField(
+                      number: 1,
+                      start: descNode,
                       onchange: (value) {
                         setState(() {
                           description = value;

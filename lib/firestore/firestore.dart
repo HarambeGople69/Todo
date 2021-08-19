@@ -56,7 +56,7 @@ class Firestore {
         SnackBar(
           backgroundColor: Colors.red,
           content: Text(
-            "Error occured while adding task",
+            "$e",
             style: TextStyle(fontSize: ScreenUtil().setSp(15)),
           ),
         ),

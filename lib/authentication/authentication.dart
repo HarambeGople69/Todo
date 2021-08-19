@@ -6,7 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/firestore/firestore.dart';
 
 class Auth {
-  createAccount(String email, String password,String name, BuildContext context) async {
+  createAccount(
+      String email, String password, String name, BuildContext context) async {
     try {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
@@ -46,13 +47,15 @@ class Auth {
   loginAccount(String email, String password, BuildContext context) async {
     try {
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(email: email, password: password);
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.green,
-          content: Text("User logged in successfully"),
-        ),
-      );
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("User logged in successfully"),
+          ),
+        );
+      });
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -64,15 +67,15 @@ class Auth {
   }
 
   logout(BuildContext context) async {
-    
     try {
-      await FirebaseAuth.instance.signOut();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.green,
-          content: Text("User logged out successfully"),
-        ),
-      );
+      await FirebaseAuth.instance.signOut().then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Colors.green,
+            content: Text("User logged out successfully"),
+          ),
+        );
+      });
     } on FirebaseAuthException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
