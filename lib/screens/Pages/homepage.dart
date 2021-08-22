@@ -114,10 +114,10 @@ class _HomePageState extends State<HomePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Image.asset(
-                              "images/notask.png",
+                              "images/task.png",
                               height: ScreenUtil().setSp(200),
                               width: ScreenUtil().setSp(200),
-                              fit: BoxFit.contain,
+                              fit: BoxFit.cover,
                             ),
                             Text("No task", style: SmallBoldText)
                           ],

@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_native_image/flutter_native_image.dart';
 
-class AddProfile {
+class AddGalleryImage {
   Future<void> uploadImage(BuildContext context) async {
     FirebaseStorage firebaseStorage = FirebaseStorage.instance;
     final picker = ImagePicker();
@@ -25,28 +25,14 @@ class AddProfile {
       if (uploadTask.state == TaskState.success) {
         String downloadUrl =
             await firebaseStorage.ref(filename).getDownloadURL();
-        // await FirebaseFirestore.instance
-        //     .collection("ImagesUrl")
-        //     .add({"url": downloadUrl}).then((value) => print("UtsavUrls"));
 
-        var list = await FirebaseFirestore.instance
-            .collection("Users")
-            .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection("User Detail")
-            .get();
-        var a = list.docs[0].id;
         await FirebaseFirestore.instance
             .collection("Users")
             .doc(FirebaseAuth.instance.currentUser!.uid)
-            .collection("User Detail")
-            .doc(a)
-            .update({"imageUrl": downloadUrl}).then((value) {
-          print("profile imaged changed");
-        });
-        print(a);
-        print("hiiiiiiiiiiiiiiiiiiiiiii");
+            .collection("Gallery_Image")
+            .add({"imageUrl": downloadUrl, "timestamp": DateTime.now()});
 
-        // print("Download Url:::    $downloadUrl");
+        print("hiiiiiiiiiiiiiiiiiiiiiii");
       } else {}
     } on FirebaseException catch (e) {
       print(e.message);

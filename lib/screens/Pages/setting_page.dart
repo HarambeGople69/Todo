@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _SettingPageState extends State<SettingPage> {
           child: Column(
             children: [
               // Spacer(),
+              OurSizedHeight(),
               Container(
                 color: Colors.transparent,
                 child: StreamBuilder<QuerySnapshot>(
@@ -82,12 +84,26 @@ class _SettingPageState extends State<SettingPage> {
                                             ),
                                           )
                                         : Center(
-                                            child: CircleAvatar(
-                                              radius: ScreenUtil().setSp(100),
-                                              backgroundImage: NetworkImage(
-                                                  userModel.imageUrl),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                ScreenUtil().setSp(50),
+                                              ),
+                                              child: Container(
+                                                height: ScreenUtil().setSp(200),
+                                                width: ScreenUtil().setSp(175),
+                                                child: CachedNetworkImage(
+                                                  fit: BoxFit.cover,
+                                                  imageUrl: userModel.imageUrl,
+                                                  placeholder: (context, url) =>
+                                                      Image.asset(
+                                                    "images/imageplaceholder.png",
+                                                  ),
+                                                ),
+                                              ),
                                             ),
                                           ),
+                                    OurSizedHeight(),
                                     OurSettingListTile(
                                         title: "User name: ",
                                         data: userModel.name),
