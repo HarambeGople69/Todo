@@ -3,11 +3,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:todo/addImages/profile_image..dart';
 import 'package:todo/authentication/authentication.dart';
 import 'package:todo/models/usermodel.dart';
 import 'package:todo/provider/theme_provider.dart';
 import 'package:todo/widgets/our_setting_tile.dart';
 import 'package:todo/widgets/our_sized_box.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class SettingPage extends StatefulWidget {
   const SettingPage({Key? key}) : super(key: key);
@@ -18,6 +20,7 @@ class SettingPage extends StatefulWidget {
 
 class _SettingPageState extends State<SettingPage> {
   UserModel? userModel;
+  bool process = false;
   @override
   void initState() {
     // TODO: implement initState
@@ -37,7 +40,9 @@ class _SettingPageState extends State<SettingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+        body: ModalProgressHUD(
+      inAsyncCall: process,
+      child: SafeArea(
         child: Container(
           margin: EdgeInsets.symmetric(
             horizontal: ScreenUtil().setSp(20),
@@ -45,15 +50,9 @@ class _SettingPageState extends State<SettingPage> {
           ),
           child: Column(
             children: [
-              Center(
-                child: CircleAvatar(
-                  radius: ScreenUtil().setSp(100),
-                  backgroundImage: AssetImage("images/face.jpg"),
-                ),
-              ),
-              OurSizedHeight(),
-              Expanded(
-                flex: 2,
+              // Spacer(),
+              Container(
+                color: Colors.transparent,
                 child: StreamBuilder<QuerySnapshot>(
                     stream: FirebaseFirestore.instance
                         .collection("Users")
@@ -74,6 +73,21 @@ class _SettingPageState extends State<SettingPage> {
                                 return Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
+                                    userModel.imageUrl == ""
+                                        ? Center(
+                                            child: CircleAvatar(
+                                              radius: ScreenUtil().setSp(100),
+                                              backgroundImage: AssetImage(
+                                                  "images/profile.png"),
+                                            ),
+                                          )
+                                        : Center(
+                                            child: CircleAvatar(
+                                              radius: ScreenUtil().setSp(100),
+                                              backgroundImage: NetworkImage(
+                                                  userModel.imageUrl),
+                                            ),
+                                          ),
                                     OurSettingListTile(
                                         title: "User name: ",
                                         data: userModel.name),
@@ -83,6 +97,35 @@ class _SettingPageState extends State<SettingPage> {
                                     OurSettingListTile(
                                         title: "Account created on: ",
                                         data: userModel.AddedOn),
+                                    ListTile(
+                                      onTap: () async {
+                                        setState(() {
+                                          process = true;
+                                        });
+                                        await AddProfile().uploadImage(context);
+                                        setState(() {
+                                          process = false;
+                                        });
+                                      },
+                                      title: userModel.imageUrl == ""
+                                          ? Text(
+                                              "Add profile picture",
+                                              style: TextStyle(
+                                                fontSize: ScreenUtil().setSp(
+                                                  16,
+                                                ),
+                                              ),
+                                            )
+                                          : Text(
+                                              "Change profile picture",
+                                              style: TextStyle(
+                                                fontSize: ScreenUtil().setSp(
+                                                  16,
+                                                ),
+                                              ),
+                                            ),
+                                      trailing: Icon(Icons.person),
+                                    ),
                                   ],
                                 );
                               });
@@ -91,6 +134,7 @@ class _SettingPageState extends State<SettingPage> {
                       return Center(child: CircularProgressIndicator());
                     }),
               ),
+
               SwitchListTile(
                 title: Text(
                   "Light mode",
@@ -122,11 +166,11 @@ class _SettingPageState extends State<SettingPage> {
                   Icons.logout,
                 ),
               ),
-              Spacer(),
+              // Spacer(),
             ],
           ),
         ),
       ),
-    );
+    ));
   }
 }

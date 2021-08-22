@@ -89,12 +89,7 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 TaskModel taskModel = TaskModel.fromJson(
                                     snapshot.data!.docs[index]);
-                                // Map<String, dynamic> data =
-                                //     snapshot.data!.docs[index].data()!
-                                //         as Map<String, dynamic>;
 
-                                // TaskModel model = TaskModel.fromJson(
-                                //     snapshot.data!.docs[index]);
                                 return OurListtile(
                                   onedit: () {
                                     print(taskModel.uid);

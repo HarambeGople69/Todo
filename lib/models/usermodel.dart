@@ -4,11 +4,13 @@ class UserModel {
   final String email;
   final String name;
   final String AddedOn;
+  final String imageUrl;
 
-  UserModel({
+  UserModel( {
     required this.email,
     required this.name,
     required this.AddedOn,
+    required this.imageUrl,
   });
 
   factory UserModel.fromJson(DocumentSnapshot querySnapshot) {
@@ -16,6 +18,8 @@ class UserModel {
       email: querySnapshot["email"],
       name: querySnapshot["name"],
       AddedOn: querySnapshot["AddedOn"],
+      imageUrl: querySnapshot["imageUrl"],
+
     );
   }
 }

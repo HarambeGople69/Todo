@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo/authentication/authentication.dart';
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:todo/screens/Pages/gallary.dart';
 import 'package:todo/screens/Pages/homepage.dart';
 import 'package:todo/screens/Pages/setting_page.dart';
 
@@ -38,9 +39,7 @@ class _DashboardState extends State<Dashboard> {
           },
           children: <Widget>[
             HomePage(),
-            Container(
-              color: Colors.red,
-            ),
+            Gallery(),
             Container(
               color: Colors.green,
             ),

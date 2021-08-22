@@ -20,11 +20,13 @@ class Firestore {
         "AddedOn": DateFormat('yyy-MM--dd').format(
           DateTime.now(),
         ),
+        "imageUrl": "",
       }).then((value) => print("Done =========================="));
     } catch (e) {
       print(e);
     }
   }
+
 
   addTask(String uid, String title, String description,
       BuildContext context) async {

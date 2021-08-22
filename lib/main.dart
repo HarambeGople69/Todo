@@ -12,7 +12,7 @@ import 'package:todo/screens/auth/login_page.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(ChangeNotifierProvider(
+  runApp(ChangeNotifierProvider( 
     create: (_) => CurrentTheme(),
     child: MyApp(),
   ));
