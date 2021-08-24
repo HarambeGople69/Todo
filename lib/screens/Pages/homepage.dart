@@ -4,11 +4,10 @@ import 'package:colorlizer/colorlizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:todo/firestore/firestore.dart';
+import 'package:todo/services/firestore/firestore.dart';
 import 'package:todo/models/taskmodel.dart';
 import 'package:todo/screens/Pages/add_task.dart';
 import 'package:todo/utils/styles.dart';
-import 'package:intl/intl.dart';
 import 'package:todo/widgets/our_task_tile.dart';
 
 class HomePage extends StatefulWidget {
@@ -132,6 +131,7 @@ class _HomePageState extends State<HomePage> {
       floatingActionButton: FloatingActionButton(
         child: Icon(
           Icons.add,
+          size: ScreenUtil().setSp(25),
         ),
         onPressed: () {
           Navigator.push(

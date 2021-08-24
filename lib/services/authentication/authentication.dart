@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:todo/firestore/firestore.dart';
+import 'package:todo/services/firestore/firestore.dart';
 
 class Auth {
   createAccount(

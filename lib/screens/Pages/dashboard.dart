@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:todo/authentication/authentication.dart';
+
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:todo/screens/Pages/gallary.dart';
 import 'package:todo/screens/Pages/homepage.dart';
 import 'package:todo/screens/Pages/setting_page.dart';
+
+import 'calender.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({Key? key}) : super(key: key);
@@ -40,9 +42,7 @@ class _DashboardState extends State<Dashboard> {
           children: <Widget>[
             HomePage(),
             Gallery(),
-            Container(
-              color: Colors.green,
-            ),
+            Calender(),
             SettingPage()
           ],
         ),

@@ -19,12 +19,14 @@ class AddProfile {
     File imageFile = File(pickedImage.path);
     File compressedFiles = await compressImage(imageFile);
     try {
-      final uploadTask =
-          await firebaseStorage.ref(filename).putFile(compressedFiles);
+      final uploadTask = await firebaseStorage
+          .ref("${FirebaseAuth.instance.currentUser!.uid}/$filename")
+          .putFile(compressedFiles);
 
       if (uploadTask.state == TaskState.success) {
-        String downloadUrl =
-            await firebaseStorage.ref(filename).getDownloadURL();
+        String downloadUrl = await firebaseStorage
+            .ref("${FirebaseAuth.instance.currentUser!.uid}/$filename")
+            .getDownloadURL();
         // await FirebaseFirestore.instance
         //     .collection("ImagesUrl")
         //     .add({"url": downloadUrl}).then((value) => print("UtsavUrls"));
