@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
-
 import 'package:todo/utils/styles.dart';
 import 'package:todo/utils/utils.dart';
 import 'package:todo/widgets/our_gradient_button.dart';
@@ -20,8 +19,12 @@ class AddTask extends StatefulWidget {
 class _AddTaskState extends State<AddTask> {
   final FocusNode titleNode = FocusNode();
   final FocusNode descNode = FocusNode();
+  final FocusNode fromNode = FocusNode();
+  final FocusNode toNode = FocusNode();
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final fromEventController = TextEditingController();
+  final toEventController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String title = "";
   String description = "";
@@ -35,28 +38,18 @@ class _AddTaskState extends State<AddTask> {
     setState(() {
       uid = FirebaseAuth.instance.currentUser!.uid;
       fromdate = DateTime.now();
+      fromEventController.text = Utils().customDate(fromdate);
       todate = DateTime.now().add(
         Duration(
           hours: 2,
         ),
       );
+      toEventController.text = Utils().customDate(todate);
     });
   }
 
   late DateTime fromdate;
   late DateTime todate;
-
-  OurTimeTile(String text) {
-    return ListTile(
-      trailing: Icon(
-        Icons.arrow_drop_down,
-      ),
-      // onTap: () {
-      //   onclick();
-      // },
-      title: Text(text),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,70 +97,6 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     OurSizedHeight(),
                     Text(
-                      "From",
-                      style: SmallBoldText,
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 2,
-                          child: OurTimeTile(
-                            Utils().toDate(fromdate),
-                            // () {},
-                          ),
-                        ),
-                        Expanded(
-                          flex: 1,
-                          child: OurTimeTile(
-                            Utils().toTime(fromdate),
-                            // () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "To",
-                      style: SmallBoldText,
-                    ),
-
-                    InkWell(
-                      onTap: () async {
-                        showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2030),
-                          lastDate: DateTime(2030),
-                        );
-                        // if (pickedDate != null) {
-                        //   setState(() {
-                        //     todate = pickedDate;
-                        //   });
-                        // } else {}
-                      },
-                      child: OurTimeTile(
-                        Utils().toDate(todate),
-
-                        // () async {
-                        // DateTime? pickedDate = await showDatePicker(
-                        //   context: context,
-                        //   initialDate: fromdate,
-                        //   firstDate: DateTime(2030),
-                        //   lastDate: DateTime(2030),
-                        // );
-                        // if (pickedDate != null) {
-                        //   setState(() {
-                        //     todate = pickedDate;
-                        //   });
-                        // } else {}
-                        // },
-                      ),
-                    ),
-                    // OurTimeTile(
-                    //   Utils().toTime(todate),
-                    //   // () {},
-                    // ),
-
-                    Text(
                       "Description",
                       style: SmallBoldText,
                     ),
@@ -175,6 +104,7 @@ class _AddTaskState extends State<AddTask> {
                     CustomTextField(
                       number: 1,
                       start: descNode,
+                      end: toNode,
                       onchange: (value) {
                         setState(() {
                           description = value;
@@ -193,18 +123,172 @@ class _AddTaskState extends State<AddTask> {
                       type: TextInputType.name,
                     ),
                     OurSizedHeight(),
+
+                    Text(
+                      "From",
+                      style: SmallBoldText,
+                    ),
+                    OurSizedHeight(),
+
+                    TextFormField(
+                      focusNode: toNode,
+                      controller: fromEventController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        errorStyle: TextStyle(
+                          fontSize: ScreenUtil().setSp(
+                            15,
+                          ),
+                        ),
+                      ),
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime initialTime = DateTime.now();
+                        DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate: fromdate,
+                          firstDate: DateTime(2021),
+                          lastDate: DateTime(2022),
+                        );
+                        if (date == null) {
+                          return null;
+                        }
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                              hour: initialTime.hour,
+                              minute: initialTime.minute),
+                        );
+                        if (time == null) {
+                          return null;
+                        }
+                        setState(() {
+                          fromdate = DateTime(
+                            date.year,
+                            date.month,
+                            date.day,
+                            time.hour,
+                            time.minute,
+                          );
+                          fromEventController.text =
+                              Utils().customDate(fromdate);
+                        });
+                      },
+                    ),
+
+                    OurSizedHeight(),
+
+                    Text(
+                      "To",
+                      style: SmallBoldText,
+                    ),
+                    OurSizedHeight(),
+                    TextField(
+                      controller: toEventController,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        errorStyle: TextStyle(
+                          fontSize: ScreenUtil().setSp(
+                            15,
+                          ),
+                        ),
+                      ),
+                      readOnly: true,
+                      onTap: () async {
+                        DateTime initialTime = DateTime.now();
+                        DateTime? date = await showDatePicker(
+                          context: context,
+                          initialDate: fromdate,
+                          firstDate: fromdate
+                          lastDate: DateTime(2022),
+                        );
+                        if (date == null) {
+                          return null;
+                        }
+                        final time = await showTimePicker(
+                          context: context,
+                          initialTime: TimeOfDay(
+                              hour: initialTime.hour,
+                              minute: initialTime.minute),
+                        );
+                        if (time == null) {
+                          return null;
+                        }
+                        setState(() {
+                          todate = DateTime(
+                            date.year,
+                            date.month,
+                            date.day,
+                            time.hour,
+                            time.minute,
+                          );
+                          toEventController.text = Utils().customDate(todate);
+                        });
+                      },
+                    ),
+                    // InkWell(
+                    //   onTap: () async {
+                    //     showDatePicker(
+                    //       context: context,
+                    //       initialDate: DateTime.now(),
+                    //       firstDate: DateTime(2030),
+                    //       lastDate: DateTime(2030),
+                    //     );
+                    //     // if (pickedDate != null) {
+                    //     //   setState(() {
+                    //     //     todate = pickedDate;
+                    //     //   });
+                    //     // } else {}
+                    //   },
+                    //   child: OurTimeTile(
+                    //     Utils().toDate(todate),
+
+                    //     // () async {
+                    //     // DateTime? pickedDate = await showDatePicker(
+                    //     //   context: context,
+                    //     //   initialDate: fromdate,
+                    //     //   firstDate: DateTime(2030),
+                    //     //   lastDate: DateTime(2030),
+                    //     // );
+                    //     // if (pickedDate != null) {
+                    //     //   setState(() {
+                    //     //     todate = pickedDate;
+                    //     //   });
+                    //     // } else {}
+                    //     // },
+                    //   ),
+                    // ),
+                    // OurTimeTile(
+                    //   Utils().toTime(todate),
+                    //   // () {},
+                    // ),
+
+                    OurSizedHeight(),
                     Center(
                       child: SizedBox(
                         width: double.infinity * 0.75,
                         child: OurGradientButton(
+                          // function: () {
+                          //   print(todate);
+                          // },
                           function: () async {
                             if (formKey.currentState!.validate()) {
                               setState(() {
                                 storing = true;
                               });
                               print("Valid");
-                              await Firestore()
-                                  .addTask(uid, title, description, context);
+                              await Firestore().addTask(
+                                uid,
+                                title,
+                                description,
+                                fromdate,
+                                todate,
+                                context,
+                              );
                               storing = false;
                               Navigator.pop(context);
                             } else {

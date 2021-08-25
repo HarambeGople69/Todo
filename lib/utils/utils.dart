@@ -1,16 +1,19 @@
 import 'package:intl/intl.dart';
 
-class Utils{
-  String toDateTime(DateTime dateTime){
+class Utils {
+  String toDateTime(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
     final time = DateFormat.Hm().format(dateTime);
     return "$date $time";
   }
-  String toDate(DateTime dateTime){
+
+  String customDate(DateTime dateTime) {
     final date = DateFormat.yMMMEd().format(dateTime);
-    return "$date";
+    final time = DateFormat.Hm().format(dateTime);
+    return "$date    $time";
   }
-  String toTime(DateTime dateTime){
+
+  String toTime(DateTime dateTime) {
     final time = DateFormat.Hm().format(dateTime);
     return "$time";
   }

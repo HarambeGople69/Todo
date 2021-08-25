@@ -20,6 +20,7 @@ class Firestore {
         "AddedOn": DateFormat('yyy-MM--dd').format(
           DateTime.now(),
         ),
+        
         "imageUrl": "",
       }).then((value) => print("Done =========================="));
     } catch (e) {
@@ -28,7 +29,7 @@ class Firestore {
   }
 
 
-  addTask(String uid, String title, String description,
+  addTask(String uid, String title, String description,DateTime fromDate,DateTime todate,
       BuildContext context) async {
     try {
       await FirebaseFirestore.instance
@@ -41,6 +42,8 @@ class Firestore {
         "timeAdded": DateFormat('yyy-MM--dd').format(
           DateTime.now(),
         ),
+        "fromDate":fromDate,
+        "todate":todate,
         "timestamp": DateTime.now(),
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(

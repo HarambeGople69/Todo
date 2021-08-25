@@ -115,8 +115,8 @@ class _HomePageState extends State<HomePage> {
                             Image.asset(
                               "images/task.png",
                               height: ScreenUtil().setSp(200),
-                              width: ScreenUtil().setSp(200),
-                              fit: BoxFit.cover,
+                              width: ScreenUtil().setSp(250),
+                              fit: BoxFit.fill,
                             ),
                             Text("No task", style: SmallBoldText)
                           ],

@@ -6,6 +6,8 @@ class TaskModel {
   final String timeAdded;
   final Timestamp timestamp;
   final String uid;
+  final Timestamp fromDate;
+  final Timestamp todate;
 
   TaskModel({
     required this.title,
@@ -13,6 +15,8 @@ class TaskModel {
     required this.timeAdded,
     required this.timestamp,
     required this.uid,
+    required this.fromDate,
+    required this.todate,
   });
 
   factory TaskModel.fromJson(DocumentSnapshot querySnapshot) {
@@ -22,6 +26,8 @@ class TaskModel {
       timeAdded: querySnapshot["timeAdded"],
       timestamp: querySnapshot["timestamp"],
       uid: querySnapshot.id,
+      fromDate: querySnapshot["timestamp"],
+      todate: querySnapshot["timestamp"],
     );
   }
 }
