@@ -23,10 +23,11 @@ class OurListtile extends StatelessWidget {
     required this.todate,
   }) : super(key: key);
 
-  final date2 = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
+  final date2 = DateTime.now();
+
     ColorLizer colorlizer = ColorLizer();
     return Slidable(
         secondaryActions: [

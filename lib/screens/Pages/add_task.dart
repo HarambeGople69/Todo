@@ -32,6 +32,7 @@ class _AddTaskState extends State<AddTask> {
   String uid = "";
   bool storing = false;
   ColorLizer colorlizer = ColorLizer();
+  
 
   @override
   void initState() {
