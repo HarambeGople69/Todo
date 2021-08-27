@@ -39,12 +39,7 @@ class _DashboardState extends State<Dashboard> {
           onPageChanged: (index) {
             setState(() => _currentIndex = index);
           },
-          children: <Widget>[
-            HomePage(),
-            Gallery(),
-            Calender(),
-            SettingPage()
-          ],
+          children: <Widget>[HomePage(), Gallery(), Calender(), SettingPage()],
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
@@ -60,8 +55,8 @@ class _DashboardState extends State<Dashboard> {
             activeColor: Colors.red,
           ),
           BottomNavyBarItem(
-              icon: Icon(Icons.camera),
-              title: Text('Memory'),
+              icon: Icon(Icons.photo_album),
+              title: Text('Gallery'),
               activeColor: Colors.purpleAccent),
           BottomNavyBarItem(
               icon: Icon(Icons.calendar_today),

@@ -3,29 +3,34 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
+import 'package:todo/models/taskmodel.dart';
+import 'package:todo/services/firestore/firestore.dart';
 import 'package:todo/utils/styles.dart';
 import 'package:todo/utils/utils.dart';
 import 'package:todo/widgets/our_gradient_button.dart';
 import 'package:todo/widgets/our_sized_box.dart';
 import 'package:todo/widgets/our_textfield.dart';
-import 'package:todo/services/firestore/firestore.dart';
 
-class AddTask extends StatefulWidget {
-  const AddTask({Key? key}) : super(key: key);
+class EditPage extends StatefulWidget {
+  final TaskModel taskmodel;
+  const EditPage({
+    Key? key,
+    required this.taskmodel,
+  }) : super(key: key);
 
   @override
-  _AddTaskState createState() => _AddTaskState();
+  _EditPageState createState() => _EditPageState();
 }
 
-class _AddTaskState extends State<AddTask> {
+class _EditPageState extends State<EditPage> {
   final FocusNode titleNode = FocusNode();
   final FocusNode descNode = FocusNode();
   final FocusNode fromNode = FocusNode();
   final FocusNode toNode = FocusNode();
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final fromEventController = TextEditingController();
-  final toEventController = TextEditingController();
+  TextEditingController titleController = TextEditingController();
+  TextEditingController descriptionController = TextEditingController();
+  TextEditingController fromEventController = TextEditingController();
+  TextEditingController toEventController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   String title = "";
   String description = "";
@@ -37,16 +42,26 @@ class _AddTaskState extends State<AddTask> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    updateAll();
+  }
+
+  updateAll(){
+    print("Update vayo??");
     setState(() {
+      print(widget.taskmodel.description);
+      print(widget.taskmodel.title);
+      print(widget.taskmodel.fromDate);
+      print(widget.taskmodel.timeAdded);
+      print(widget.taskmodel.timestamp);
+      title = widget.taskmodel.title;
+      description = widget.taskmodel.description;
+      titleController.text= widget.taskmodel.title;
+      descriptionController.text = widget.taskmodel.description;
       uid = FirebaseAuth.instance.currentUser!.uid;
-      fromdate = DateTime.now();
-      fromEventController.text = Utils().customDate(fromdate);
-      todate = DateTime.now().add(
-        Duration(
-          hours: 2,
-        ),
-      );
-      toEventController.text = Utils().customDate(todate);
+      fromdate =widget.taskmodel.fromDate.toDate();
+      fromEventController.text = Utils().customDate( widget.taskmodel.fromDate.toDate());
+      todate =widget.taskmodel.todate.toDate(); 
+      toEventController.text = Utils().customDate( widget.taskmodel.todate.toDate());
     });
   }
 
@@ -57,7 +72,7 @@ class _AddTaskState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Add task"),
+          title: Text("Edit task"),
         ),
         body: ModalProgressHUD(
           inAsyncCall: storing,
@@ -78,6 +93,7 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     OurSizedHeight(),
                     CustomTextField(
+                      initialValue: titleController.text,
                       number: 0,
                       start: titleNode,
                       end: descNode,
@@ -104,6 +120,7 @@ class _AddTaskState extends State<AddTask> {
                     ),
                     OurSizedHeight(),
                     CustomTextField(
+                      initialValue: descriptionController.text,
                       number: 1,
                       start: descNode,
                       end: toNode,
@@ -147,7 +164,7 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       readOnly: true,
                       onTap: () async {
-                        DateTime initialTime = DateTime.now();
+                        // DateTime initialTime = DateTime.now();
                         DateTime? date = await showDatePicker(
                           context: context,
                           initialDate: fromdate,
@@ -160,8 +177,8 @@ class _AddTaskState extends State<AddTask> {
                         final time = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay(
-                              hour: initialTime.hour,
-                              minute: initialTime.minute),
+                              hour: fromdate.hour,
+                              minute: fromdate.minute),
                         );
                         if (time == null) {
                           return null;
@@ -201,10 +218,10 @@ class _AddTaskState extends State<AddTask> {
                       ),
                       readOnly: true,
                       onTap: () async {
-                        DateTime initialTime = DateTime.now();
+                        // DateTime initialTime = DateTime.now();
                         DateTime? date = await showDatePicker(
                           context: context,
-                          initialDate: fromdate,
+                          initialDate: todate,
                           firstDate: fromdate
                           lastDate: DateTime(2050),
                         );
@@ -214,8 +231,8 @@ class _AddTaskState extends State<AddTask> {
                         final time = await showTimePicker(
                           context: context,
                           initialTime: TimeOfDay(
-                              hour: initialTime.hour,
-                              minute: initialTime.minute),
+                              hour: todate.hour,
+                              minute: todate.minute),
                         );
                         if (time == null) {
                           return null;
@@ -232,43 +249,7 @@ class _AddTaskState extends State<AddTask> {
                         });
                       },
                     ),
-                    // InkWell(
-                    //   onTap: () async {
-                    //     showDatePicker(
-                    //       context: context,
-                    //       initialDate: DateTime.now(),
-                    //       firstDate: DateTime(2030),
-                    //       lastDate: DateTime(2030),
-                    //     );
-                    //     // if (pickedDate != null) {
-                    //     //   setState(() {
-                    //     //     todate = pickedDate;
-                    //     //   });
-                    //     // } else {}
-                    //   },
-                    //   child: OurTimeTile(
-                    //     Utils().toDate(todate),
-
-                    //     // () async {
-                    //     // DateTime? pickedDate = await showDatePicker(
-                    //     //   context: context,
-                    //     //   initialDate: fromdate,
-                    //     //   firstDate: DateTime(2030),
-                    //     //   lastDate: DateTime(2030),
-                    //     // );
-                    //     // if (pickedDate != null) {
-                    //     //   setState(() {
-                    //     //     todate = pickedDate;
-                    //     //   });
-                    //     // } else {}
-                    //     // },
-                    //   ),
-                    // ),
-                    // OurTimeTile(
-                    //   Utils().toTime(todate),
-                    //   // () {},
-                    // ),
-
+                    
                     OurSizedHeight(),
                     Center(
                       child: SizedBox(
@@ -297,14 +278,7 @@ class _AddTaskState extends State<AddTask> {
                                 storing = true;
                               });
                               print("Valid");
-                              await Firestore().addTask(
-                                uid,
-                                title,
-                                description,
-                                fromdate,
-                                todate,
-                                context,
-                              );
+                              await Firestore().EditTask(uid, widget.taskmodel.uid, title, description, fromdate, todate, context,);
                               storing = false;
                               Navigator.pop(context);
                             }
@@ -313,7 +287,7 @@ class _AddTaskState extends State<AddTask> {
                               print("Invalid");
                             }
                           },
-                          title: "Add",
+                          title: "Update Task",
                         ),
                       ),
                     ),

@@ -4,6 +4,7 @@ import 'package:colorlizer/colorlizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/screens/Pages/edit_task.dart';
 import 'package:todo/services/firestore/firestore.dart';
 import 'package:todo/models/taskmodel.dart';
 import 'package:todo/screens/Pages/add_task.dart';
@@ -88,10 +89,20 @@ class _HomePageState extends State<HomePage> {
                               itemBuilder: (context, index) {
                                 TaskModel taskModel = TaskModel.fromJson(
                                     snapshot.data!.docs[index]);
-
                                 return OurListtile(
                                   onedit: () {
-                                    print(taskModel.uid);
+                                    // print(taskModel.todate.toDate());
+                                    // print(taskModel.fromDate.toDate());
+                                    // print(taskModel.title);
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        fullscreenDialog: true,
+                                        builder: (context) {
+                                          return EditPage(taskmodel: taskModel);
+                                        },
+                                      ),
+                                    );
                                   },
                                   ondelete: () async {
                                     await Firestore().deleteTask(
@@ -104,6 +115,7 @@ class _HomePageState extends State<HomePage> {
                                   title: taskModel.title,
                                   description: taskModel.description,
                                   time: taskModel.timeAdded,
+                                  todate: taskModel.todate.toDate(),
                                 );
                               });
                         }

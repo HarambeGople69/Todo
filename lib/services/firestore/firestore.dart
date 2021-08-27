@@ -20,7 +20,6 @@ class Firestore {
         "AddedOn": DateFormat('yyy-MM--dd').format(
           DateTime.now(),
         ),
-        
         "imageUrl": "",
       }).then((value) => print("Done =========================="));
     } catch (e) {
@@ -28,9 +27,8 @@ class Firestore {
     }
   }
 
-
-  addTask(String uid, String title, String description,DateTime fromDate,DateTime todate,
-      BuildContext context) async {
+  addTask(String uid, String title, String description, DateTime fromDate,
+      DateTime todate, BuildContext context) async {
     try {
       await FirebaseFirestore.instance
           .collection("Users")
@@ -42,8 +40,8 @@ class Firestore {
         "timeAdded": DateFormat('yyy-MM--dd').format(
           DateTime.now(),
         ),
-        "fromDate":fromDate,
-        "todate":todate,
+        "fromDate": fromDate,
+        "todate": todate,
         "timestamp": DateTime.now(),
       }).then((value) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -56,6 +54,67 @@ class Firestore {
           ),
         );
       });
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: Colors.red,
+          content: Text(
+            "$e",
+            style: TextStyle(fontSize: ScreenUtil().setSp(15)),
+          ),
+        ),
+      );
+    }
+  }
+
+  EditTask(String uid, String docUID, String title, String description,
+      DateTime fromDate, DateTime todate, BuildContext context) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection("Users")
+          .doc(uid)
+          .collection("Tasks")
+          .doc(docUID)
+          .update({
+        "title": title,
+        "description": description,
+        "timeAdded": DateFormat('yyy-MM--dd').format(
+          DateTime.now(),
+        ),
+        "fromDate": fromDate,
+        "todate": todate,
+        "timestamp": DateTime.now(),
+      }).then((value) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),
+            content: Text(
+              "Task Updated",
+              style: TextStyle(fontSize: ScreenUtil().setSp(15)),
+            ),
+          ),
+        );
+      });
+      //     .add({
+      //   "title": title,
+      //   "description": description,
+      //   "timeAdded": DateFormat('yyy-MM--dd').format(
+      //     DateTime.now(),
+      //   ),
+      //   "fromDate":fromDate,
+      //   "todate":todate,
+      //   "timestamp": DateTime.now(),
+      // }).then((value) {
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //     SnackBar(
+      //       backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),
+      //       content: Text(
+      //         "Task added",
+      //         style: TextStyle(fontSize: ScreenUtil().setSp(15)),
+      //       ),
+      //     ),
+      //   );
+      // });
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

@@ -14,7 +14,9 @@ class _CalenderState extends State<Calender> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SfCalendar(),
+        child: SfCalendar(
+          view: CalendarView.month,
+        ),
       ),
     );
   }

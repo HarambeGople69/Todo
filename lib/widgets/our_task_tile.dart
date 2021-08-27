@@ -11,7 +11,8 @@ class OurListtile extends StatelessWidget {
   final String uid;
   final Function ondelete;
   final Function onedit;
-  const OurListtile({
+  final DateTime todate;
+  OurListtile({
     Key? key,
     required this.title,
     required this.description,
@@ -19,7 +20,10 @@ class OurListtile extends StatelessWidget {
     required this.uid,
     required this.ondelete,
     required this.onedit,
+    required this.todate,
   }) : super(key: key);
+
+  final date2 = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -90,13 +94,47 @@ class OurListtile extends StatelessWidget {
                   ],
                 ),
               ),
-              Text(
-                time,
-                style: TextStyle(
-                  fontSize: ScreenUtil().setSp(15),
-                  fontWeight: FontWeight.w600,
-                ),
-              )
+              (todate.difference(date2).inDays != 0)
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Remaining time",
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(17),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        Text(
+                          "${todate.difference(date2).inDays} days",
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(15),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
+                  : Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "Alert",
+                          style: TextStyle(
+                              fontSize: ScreenUtil().setSp(17),
+                              fontWeight: FontWeight.w600,
+                              color: Colors.red),
+                        ),
+                        Text(
+                          "${todate.difference(date2).inDays} days",
+                          style: TextStyle(
+                            fontSize: ScreenUtil().setSp(15),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ],
+                    )
             ],
           ),
         ),

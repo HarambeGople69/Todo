@@ -26,8 +26,8 @@ class TaskModel {
       timeAdded: querySnapshot["timeAdded"],
       timestamp: querySnapshot["timestamp"],
       uid: querySnapshot.id,
-      fromDate: querySnapshot["timestamp"],
-      todate: querySnapshot["timestamp"],
+      fromDate: querySnapshot["fromDate"],
+      todate: querySnapshot["todate"],
     );
   }
 }

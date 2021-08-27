@@ -12,6 +12,7 @@ class CustomTextField extends StatefulWidget {
   final String title;
   final int? length;
   final int number;
+  final String?initialValue;
 
 
   const CustomTextField({
@@ -24,7 +25,7 @@ class CustomTextField extends StatefulWidget {
     required this.type,
     this.length,
     this.start,
-    this.end,required this.number,
+    this.end,required this.number, this.initialValue,
   }) : super(key: key);
 
   @override
@@ -35,6 +36,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: widget.initialValue,
       focusNode: widget.start,
        onEditingComplete: () {
           if (widget.number == 0) {
