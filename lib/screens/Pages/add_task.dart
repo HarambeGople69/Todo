@@ -1,6 +1,7 @@
 import 'package:colorlizer/colorlizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:todo/utils/styles.dart';
@@ -9,7 +10,11 @@ import 'package:todo/widgets/our_gradient_button.dart';
 import 'package:todo/widgets/our_sized_box.dart';
 import 'package:todo/widgets/our_textfield.dart';
 import 'package:todo/services/firestore/firestore.dart';
+// import 'package:timezone/data/latest.dart' as tz;
+// import 'package:timezone/timezone.dart' as tz;
+// import 'dart:math';
 
+FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
 
@@ -33,11 +38,18 @@ class _AddTaskState extends State<AddTask> {
   bool storing = false;
   ColorLizer colorlizer = ColorLizer();
   
+  initializeSetting()async{
+    var initializeAndroid = AndroidInitializationSettings("logo");
+    var initializeSetting = InitializationSettings(android: initializeAndroid);
+    notificationsPlugin.initialize(initializeSetting);
+  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    // tz.initializeTimeZones();
+    // initializeSetting();
     setState(() {
       uid = FirebaseAuth.instance.currentUser!.uid;
       fromdate = DateTime.now();
@@ -50,6 +62,12 @@ class _AddTaskState extends State<AddTask> {
       toEventController.text = Utils().customDate(todate);
     });
   }
+
+  // displayNotification(DateTime datetime){
+  //   notificationsPlugin.zonedSchedule(0, "title", "body", tz.TZDateTime.from(datetime, tz.local), NotificationDetails(
+  //     android: AndroidNotificationDetails("channelId", "channelName", "channelDescription")
+  //   ), uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, androidAllowWhileIdle: true);
+  // }
 
   late DateTime fromdate;
   late DateTime todate;
@@ -151,9 +169,12 @@ class _AddTaskState extends State<AddTask> {
                         DateTime initialTime = DateTime.now();
                         DateTime? date = await showDatePicker(
                           context: context,
+                          // helpText:"Help",
+                          
                           initialDate: fromdate,
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2022),
+                          
                         );
                         if (date == null) {
                           return null;
@@ -298,6 +319,7 @@ class _AddTaskState extends State<AddTask> {
                                 storing = true;
                               });
                               print("Valid");
+                            //  await  displayNotification(fromdate);
                               await Firestore().addTask(
                                 uid,
                                 title,

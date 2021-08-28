@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/screens/Pages/gallary.dart';
 import 'package:todo/screens/Pages/homepage.dart';
 import 'package:todo/screens/Pages/setting_page.dart';
@@ -50,21 +51,53 @@ class _DashboardState extends State<Dashboard> {
         },
         items: <BottomNavyBarItem>[
           BottomNavyBarItem(
-            icon: Icon(Icons.apps),
-            title: Text('Home'),
+            icon: Icon(
+              Icons.apps,
+              size: ScreenUtil().setSp(20),
+            ),
+            title: Text(
+              'Home',
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(15),
+              ),
+            ),
             activeColor: Colors.red,
           ),
           BottomNavyBarItem(
-              icon: Icon(Icons.photo_album),
-              title: Text('Gallery'),
+              icon: Icon(
+                Icons.photo_album,
+                size: ScreenUtil().setSp(20),
+              ),
+              title: Text(
+                'Gallery',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(15),
+                ),
+              ),
               activeColor: Colors.purpleAccent),
           BottomNavyBarItem(
-              icon: Icon(Icons.calendar_today),
-              title: Text('Calender'),
+              icon: Icon(
+                Icons.calendar_today,
+                size: ScreenUtil().setSp(20),
+              ),
+              title: Text(
+                'Calender',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(15),
+                ),
+              ),
               activeColor: Colors.pink),
           BottomNavyBarItem(
-              icon: Icon(Icons.settings),
-              title: Text('Settings'),
+              icon: Icon(
+                Icons.settings,
+                size: ScreenUtil().setSp(20),
+              ),
+              title: Text(
+                'Settings',
+                style: TextStyle(
+                  fontSize: ScreenUtil().setSp(15),
+                ),
+              ),
               activeColor: Colors.blue),
         ],
       ),

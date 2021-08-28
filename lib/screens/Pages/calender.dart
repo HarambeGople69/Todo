@@ -3,6 +3,7 @@ import 'package:colorlizer/colorlizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:syncfusion_flutter_calendar/calendar.dart';
 
@@ -14,10 +15,10 @@ class Calender extends StatefulWidget {
 }
 
 class _CalenderState extends State<Calender> {
-  List<Color> _colorCollection = <Color>[];
   bool loaded = false;
   MeetingDataSource? events;
   final databaseReference = FirebaseFirestore.instance;
+  ColorLizer colorlizer = ColorLizer();
 
   @override
   void initState() {
@@ -50,7 +51,7 @@ class _CalenderState extends State<Calender> {
               e.data()['title'],
               e.data()["fromDate"].toDate(),
               e.data()["todate"].toDate(),
-              Colors.indigoAccent,
+              colorlizer.getRandomColors()!.withOpacity(0.5),
               false,
             ))
         .toList();
@@ -59,37 +60,6 @@ class _CalenderState extends State<Calender> {
     });
   }
 
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   getDataFromFireStore().then((result) {
-  //     SchedulerBinding.instance!.addPostFrameCallback((timeStamp) {
-  //       setState(() {});
-  //     });
-  //   });
-  // }
-
-  // Future<void> getDataFromFireStore() async {
-  //   var snapShotsValue = await FirebaseFirestore.instance
-  //       .collection("Users")
-  //       .doc(FirebaseAuth.instance.currentUser!.uid)
-  //       .collection("Tasks")
-  //       .get();
-
-  //   List<Meeting> lists = snapShotsValue.docs
-  //       .map((e) => Meeting(
-  //           e.data()["title"],
-  //           e.data()["fromDate"],
-  //           e.data()["todate"],
-  //           colorlizer.getRandomColors()!.withOpacity(0.7),
-  //           false))
-  //       .toList();
-  //   setState(() {
-  //     events = MeetingDataSource(lists);
-  //   });
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +67,19 @@ class _CalenderState extends State<Calender> {
       inAsyncCall: loaded,
       child: SafeArea(
         child: SfCalendar(
+          headerHeight: ScreenUtil().setSp(
+            70,
+          ),
+          todayTextStyle: TextStyle(
+            fontSize: ScreenUtil().setSp(15),
+          ),
+          headerStyle: CalendarHeaderStyle(
+            textStyle: TextStyle(
+              fontSize: ScreenUtil().setSp(
+                25,
+              ),
+            ),
+          ),
           view: CalendarView.month,
           monthViewSettings: MonthViewSettings(showAgenda: true),
           dataSource: events,
@@ -105,34 +88,6 @@ class _CalenderState extends State<Calender> {
     ));
   }
 }
-
-// Future<List<Meeting>> _getDataSource()  {
-//   // final DateTime today = DateTime.now();
-//   // final DateTime startTime =
-//   //     DateTime(today.year, today.month, today.day, 9, 0, 0);
-//   // final DateTime endTime = startTime.add(const Duration(hours: 2));
-//   var snapShotsValue = await FirebaseFirestore.instance
-//       .collection("Users")
-//       .doc(FirebaseAuth.instance.currentUser!.uid)
-//       .collection("Tasks")
-//       .get();
-
-//   List<Meeting> meetings = snapShotsValue.docs
-//       .map(
-//         (e) => Meeting(
-//           e.data()["title"],
-//           e.data()["fromData"],
-//           e.data()["todate"],
-//           Colors.green,
-//           false,
-//         ),
-//       )
-//       .toList();
-
-//   // meetings.add(Meeting(
-//   //     'Conference', startTime, endTime, const Color(0xFF0F8644), false));
-//   return meetings;
-// }
 
 class MeetingDataSource extends CalendarDataSource {
   MeetingDataSource(List<Meeting> source) {

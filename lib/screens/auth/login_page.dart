@@ -163,7 +163,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
 
                   SizedBox(
-                    height: ScreenUtil().setSp(150),
+                    height: ScreenUtil().setSp(170),
                   ),
                   Center(
                     child: RichText(

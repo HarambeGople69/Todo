@@ -49,141 +49,148 @@ class _SettingPageState extends State<SettingPage> {
             horizontal: ScreenUtil().setSp(20),
             vertical: ScreenUtil().setSp(10),
           ),
-          child: Column(
-            children: [
-              // Spacer(),
-              OurSizedHeight(),
-              Container(
-                color: Colors.transparent,
-                child: StreamBuilder<QuerySnapshot>(
-                    stream: FirebaseFirestore.instance
-                        .collection("Users")
-                        .doc(FirebaseAuth.instance.currentUser!.uid)
-                        .collection("User Detail")
-                        .snapshots(),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<QuerySnapshot> snapshot) {
-                      if (snapshot.hasData) {
-                        if (snapshot.data!.docs.length > 0) {
-                          return ListView.builder(
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemCount: snapshot.data!.docs.length,
-                              itemBuilder: (context, index) {
-                                UserModel userModel = UserModel.fromJson(
-                                    snapshot.data!.docs[index]);
-                                return Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    userModel.imageUrl == ""
-                                        ? Center(
-                                            child: CircleAvatar(
-                                              radius: ScreenUtil().setSp(100),
-                                              backgroundImage: AssetImage(
-                                                  "images/profile.png"),
-                                            ),
-                                          )
-                                        : Center(
-                                            child: ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(
-                                                ScreenUtil().setSp(50),
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                OurSizedHeight(),
+                Container(
+                  child: StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection("Users")
+                          .doc(FirebaseAuth.instance.currentUser!.uid)
+                          .collection("User Detail")
+                          .snapshots(),
+                      builder: (BuildContext context,
+                          AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (snapshot.hasData) {
+                          if (snapshot.data!.docs.length > 0) {
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemCount: snapshot.data!.docs.length,
+                                itemBuilder: (context, index) {
+                                  UserModel userModel = UserModel.fromJson(
+                                      snapshot.data!.docs[index]);
+                                  return Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      userModel.imageUrl == ""
+                                          ? Center(
+                                              child: CircleAvatar(
+                                                radius: ScreenUtil().setSp(100),
+                                                backgroundImage: AssetImage(
+                                                    "images/profile.png"),
                                               ),
-                                              child: Container(
-                                                height: ScreenUtil().setSp(200),
-                                                width: ScreenUtil().setSp(175),
-                                                child: CachedNetworkImage(
-                                                  fit: BoxFit.cover,
-                                                  imageUrl: userModel.imageUrl,
-                                                  placeholder: (context, url) =>
-                                                      Image.asset(
-                                                    "images/imageplaceholder.png",
+                                            )
+                                          : Center(
+                                              child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                  ScreenUtil().setSp(50),
+                                                ),
+                                                child: Container(
+                                                  height:
+                                                      ScreenUtil().setSp(200),
+                                                  width:
+                                                      ScreenUtil().setSp(185),
+                                                  child: CachedNetworkImage(
+                                                    fit: BoxFit.cover,
+                                                    imageUrl:
+                                                        userModel.imageUrl,
+                                                    placeholder:
+                                                        (context, url) =>
+                                                            Image.asset(
+                                                      "images/imageplaceholder.png",
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                    OurSizedHeight(),
-                                    OurSettingListTile(
-                                        title: "User name: ",
-                                        data: userModel.name),
-                                    OurSettingListTile(
-                                        title: "Email: ",
-                                        data: userModel.email),
-                                    OurSettingListTile(
-                                        title: "Account created on: ",
-                                        data: userModel.AddedOn),
-                                    ListTile(
-                                      onTap: () async {
-                                        setState(() {
-                                          process = true;
-                                        });
-                                        await AddProfile().uploadImage(context);
-                                        setState(() {
-                                          process = false;
-                                        });
-                                      },
-                                      title: userModel.imageUrl == ""
-                                          ? Text(
-                                              "Add profile picture",
-                                              style: TextStyle(
-                                                fontSize: ScreenUtil().setSp(
-                                                  16,
+                                      OurSizedHeight(),
+                                      OurSettingListTile(
+                                          title: "User name: ",
+                                          data: userModel.name),
+                                      OurSettingListTile(
+                                          title: "Email: ",
+                                          data: userModel.email),
+                                      OurSettingListTile(
+                                          title: "Account created on: ",
+                                          data: userModel.AddedOn),
+                                      ListTile(
+                                        onTap: () async {
+                                          setState(() {
+                                            process = true;
+                                          });
+                                          await AddProfile()
+                                              .uploadImage(context);
+                                          setState(() {
+                                            process = false;
+                                          });
+                                        },
+                                        title: userModel.imageUrl == ""
+                                            ? Text(
+                                                "Add profile picture",
+                                                style: TextStyle(
+                                                  fontSize: ScreenUtil().setSp(
+                                                    17,
+                                                  ),
+                                                  fontWeight: FontWeight.w500,
+                                                ),
+                                              )
+                                            : Text(
+                                                "Change profile picture",
+                                                style: TextStyle(
+                                                  fontSize: ScreenUtil().setSp(
+                                                    17,
+                                                  ),
+                                                  fontWeight: FontWeight.w500,
                                                 ),
                                               ),
-                                            )
-                                          : Text(
-                                              "Change profile picture",
-                                              style: TextStyle(
-                                                fontSize: ScreenUtil().setSp(
-                                                  16,
-                                                ),
-                                              ),
-                                            ),
-                                      trailing: Icon(Icons.person),
-                                    ),
-                                  ],
-                                );
-                              });
+                                        trailing: Icon(Icons.person),
+                                      ),
+                                    ],
+                                  );
+                                });
+                          }
                         }
-                      }
-                      return Center(child: CircularProgressIndicator());
-                    }),
-              ),
-
-              SwitchListTile(
-                title: Text(
-                  "Light mode",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(
-                      16,
+                        return Center(child: CircularProgressIndicator());
+                      }),
+                ),
+                SwitchListTile(
+                  title: Text(
+                    "Light mode",
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(
+                        17,
+                      ),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  value: !Provider.of<CurrentTheme>(context).darkTheme,
+                  onChanged: (values) {
+                    Provider.of<CurrentTheme>(context, listen: false)
+                        .toggleTheme();
+                  },
                 ),
-                value: !Provider.of<CurrentTheme>(context).darkTheme,
-                onChanged: (values) {
-                  Provider.of<CurrentTheme>(context, listen: false)
-                      .toggleTheme();
-                },
-              ),
-              ListTile(
-                onTap: () async {
-                  await Auth().logout(context);
-                },
-                title: Text(
-                  "Logout",
-                  style: TextStyle(
-                    fontSize: ScreenUtil().setSp(
-                      16,
+                ListTile(
+                  onTap: () async {
+                    await Auth().logout(context);
+                  },
+                  title: Text(
+                    "Logout",
+                    style: TextStyle(
+                      fontSize: ScreenUtil().setSp(
+                        17,
+                      ),
+                      fontWeight: FontWeight.w500,
                     ),
                   ),
+                  trailing: Icon(
+                    Icons.logout,
+                  ),
                 ),
-                trailing: Icon(
-                  Icons.logout,
-                ),
-              ),
-              // Spacer(),
-            ],
+              ],
+            ),
           ),
         ),
       ),

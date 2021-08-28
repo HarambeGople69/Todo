@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:todo/services/notification/notification.dart';
+import 'dart:math';
 
 class Firestore {
   ColorLizer colorlizer = ColorLizer();
-
+  Random rng = new Random();
   addUser(String uid, String email, String name) async {
     try {
       await FirebaseFirestore.instance
@@ -35,6 +37,7 @@ class Firestore {
           .doc(uid)
           .collection("Tasks")
           .add({
+        "taskid": rng.nextInt(1000000000),
         "title": title,
         "description": description,
         "timeAdded": DateFormat('yyy-MM--dd').format(
@@ -44,6 +47,7 @@ class Firestore {
         "todate": todate,
         "timestamp": DateTime.now(),
       }).then((value) {
+        // OurNotification().displayNotification(title, fromDate, description);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),

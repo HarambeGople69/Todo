@@ -20,8 +20,9 @@ class OurSettingListTile extends StatelessWidget {
             title,
             style: TextStyle(
               fontSize: ScreenUtil().setSp(
-                16,
+                17,
               ),
+              fontWeight: FontWeight.w500,
             ),
           ),
           Text(
