@@ -21,25 +21,7 @@ Future<void> main() async {
 }
 
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
 
-//   await Firebase.initializeApp();
-//   runApp(ChangeNotifierProvider(
-//     create: (_) => CurrentTheme(),
-//     child: DevicePreview(
-//       enabled: !kReleaseMode,
-//       builder: (context) => MyApp(), // Wrap your app
-//     ),
-//   ));
-//   runApp(
-
-//   DevicePreview(
-//     enabled: !kReleaseMode,
-//     builder: (context) => MyApp(), // Wrap your app
-//   ),
-// );
-// }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -58,7 +40,7 @@ class MyApp extends StatelessWidget {
               : Brightness.light,
           primarySwatch: Colors.amber,
         ),
-        title: 'Flutter Demo',
+        title: 'Get Organized',
         //  theme: ThemeData.dark(),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.authStateChanges(),
