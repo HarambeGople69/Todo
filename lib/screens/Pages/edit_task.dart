@@ -278,7 +278,7 @@ class _EditPageState extends State<EditPage> {
                                 storing = true;
                               });
                               print("Valid");
-                              await Firestore().EditTask(uid, widget.taskmodel.uid, title, description, fromdate, todate, context,);
+                              await Firestore().EditTask(uid, widget.taskmodel.uid, title, description, fromdate, todate,widget.taskmodel.taskid, context,);
                               storing = false;
                               Navigator.pop(context);
                             }

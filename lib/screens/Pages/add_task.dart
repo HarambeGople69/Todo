@@ -1,7 +1,8 @@
+import 'dart:math';
+
 import 'package:colorlizer/colorlizer.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:todo/utils/styles.dart';
@@ -10,11 +11,9 @@ import 'package:todo/widgets/our_gradient_button.dart';
 import 'package:todo/widgets/our_sized_box.dart';
 import 'package:todo/widgets/our_textfield.dart';
 import 'package:todo/services/firestore/firestore.dart';
-// import 'package:timezone/data/latest.dart' as tz;
-// import 'package:timezone/timezone.dart' as tz;
-// import 'dart:math';
 
-FlutterLocalNotificationsPlugin notificationsPlugin = FlutterLocalNotificationsPlugin();
+
+
 class AddTask extends StatefulWidget {
   const AddTask({Key? key}) : super(key: key);
 
@@ -23,6 +22,7 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
+  Random rng = new Random();
   final FocusNode titleNode = FocusNode();
   final FocusNode descNode = FocusNode();
   final FocusNode fromNode = FocusNode();
@@ -38,21 +38,15 @@ class _AddTaskState extends State<AddTask> {
   bool storing = false;
   ColorLizer colorlizer = ColorLizer();
   
-  initializeSetting()async{
-    var initializeAndroid = AndroidInitializationSettings("logo");
-    var initializeSetting = InitializationSettings(android: initializeAndroid);
-    notificationsPlugin.initialize(initializeSetting);
-  }
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // tz.initializeTimeZones();
-    // initializeSetting();
+
     setState(() {
       uid = FirebaseAuth.instance.currentUser!.uid;
-      fromdate = DateTime.now();
+      fromdate = DateTime.now().add(Duration(minutes: 1),);
       fromEventController.text = Utils().customDate(fromdate);
       todate = DateTime.now().add(
         Duration(
@@ -63,11 +57,7 @@ class _AddTaskState extends State<AddTask> {
     });
   }
 
-  // displayNotification(DateTime datetime){
-  //   notificationsPlugin.zonedSchedule(0, "title", "body", tz.TZDateTime.from(datetime, tz.local), NotificationDetails(
-  //     android: AndroidNotificationDetails("channelId", "channelName", "channelDescription")
-  //   ), uiLocalNotificationDateInterpretation: UILocalNotificationDateInterpretation.absoluteTime, androidAllowWhileIdle: true);
-  // }
+
 
   late DateTime fromdate;
   late DateTime todate;
@@ -319,15 +309,25 @@ class _AddTaskState extends State<AddTask> {
                                 storing = true;
                               });
                               print("Valid");
-                            //  await  displayNotification(fromdate);
+                              
+                              // displayNotification(fromdate);
                               await Firestore().addTask(
                                 uid,
                                 title,
                                 description,
                                 fromdate,
                                 todate,
+                                
                                 context,
+
                               );
+                              // try {
+                                
+                              // displayNotification(fromdate, title, description, taskId);
+                              // print("alerm set");
+                              // } catch (e) {
+                              //   print(e);
+                              // }
                               storing = false;
                               Navigator.pop(context);
                             }

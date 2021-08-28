@@ -10,28 +10,28 @@ import 'package:todo/provider/theme_provider.dart';
 import 'package:todo/screens/Pages/dashboard.dart';
 import 'package:todo/screens/auth/login_page.dart';
 
-// Future<void> main() async {
-//   WidgetsFlutterBinding.ensureInitialized();
-//   await Firebase.initializeApp();
-//   runApp(ChangeNotifierProvider(
-//     create: (_) => CurrentTheme(),
-//     child: MyApp(),
-//   )
-//   );
-// }
-
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
   runApp(ChangeNotifierProvider(
     create: (_) => CurrentTheme(),
-    child: DevicePreview(
-      enabled: !kReleaseMode,
-      builder: (context) => MyApp(), // Wrap your app
-    ),
-  ));
+    child: MyApp(),
+  )
+  );
+}
+
+
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+
+//   await Firebase.initializeApp();
+//   runApp(ChangeNotifierProvider(
+//     create: (_) => CurrentTheme(),
+//     child: DevicePreview(
+//       enabled: !kReleaseMode,
+//       builder: (context) => MyApp(), // Wrap your app
+//     ),
+//   ));
 //   runApp(
 
 //   DevicePreview(
@@ -39,7 +39,7 @@ Future<void> main() async {
 //     builder: (context) => MyApp(), // Wrap your app
 //   ),
 // );
-}
+// }
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.

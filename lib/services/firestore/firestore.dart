@@ -31,13 +31,14 @@ class Firestore {
 
   addTask(String uid, String title, String description, DateTime fromDate,
       DateTime todate, BuildContext context) async {
+    int taskId = rng.nextInt(1000000000);
     try {
       await FirebaseFirestore.instance
           .collection("Users")
           .doc(uid)
           .collection("Tasks")
           .add({
-        "taskid": rng.nextInt(1000000000),
+        "taskid": taskId,
         "title": title,
         "description": description,
         "timeAdded": DateFormat('yyy-MM--dd').format(
@@ -46,8 +47,10 @@ class Firestore {
         "fromDate": fromDate,
         "todate": todate,
         "timestamp": DateTime.now(),
-      }).then((value) {
-        // OurNotification().displayNotification(title, fromDate, description);
+      }).then((value) async {
+        print("from other");
+        OurNotification()
+            .displayNotification(taskId, title, fromDate, description);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),
@@ -71,8 +74,15 @@ class Firestore {
     }
   }
 
-  EditTask(String uid, String docUID, String title, String description,
-      DateTime fromDate, DateTime todate, BuildContext context) async {
+  EditTask(
+      String uid,
+      String docUID,
+      String title,
+      String description,
+      DateTime fromDate,
+      DateTime todate,
+      int taskID,
+      BuildContext context) async {
     try {
       await FirebaseFirestore.instance
           .collection("Users")
@@ -89,6 +99,10 @@ class Firestore {
         "todate": todate,
         "timestamp": DateTime.now(),
       }).then((value) {
+        OurNotification().cancelNotification(taskID);
+        OurNotification()
+            .displayNotification(taskID, title, fromDate, description);
+        print("updated");
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: colorlizer.getRandomColors()!.withOpacity(0.5),
@@ -135,6 +149,7 @@ class Firestore {
   deleteTask(
     String uid,
     String taskUid,
+    int taskID,
     BuildContext context,
   ) async {
     try {
@@ -145,6 +160,8 @@ class Firestore {
           .doc(taskUid)
           .delete()
           .then((value) {
+        print("Notification deleted");
+        OurNotification().cancelNotification(taskID);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Colors.red,

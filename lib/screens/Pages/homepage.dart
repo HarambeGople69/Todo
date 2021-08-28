@@ -108,6 +108,7 @@ class _HomePageState extends State<HomePage> {
                                     await Firestore().deleteTask(
                                       uid,
                                       taskModel.uid,
+                                      taskModel.taskid,
                                       context,
                                     );
                                   },
