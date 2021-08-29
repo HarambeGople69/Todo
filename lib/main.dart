@@ -34,7 +34,6 @@ class MyApp extends StatelessWidget {
       builder: () => MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // brightness: pri
           brightness: Provider.of<CurrentTheme>(context).darkTheme
               ? Brightness.dark
               : Brightness.light,

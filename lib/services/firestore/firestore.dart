@@ -10,7 +10,7 @@ import 'dart:math';
 class Firestore {
   ColorLizer colorlizer = ColorLizer();
   Random rng = new Random();
-  addUser(String uid, String email, String name) async {
+  addUser(String uid,String password, String email, String name) async {
     try {
       await FirebaseFirestore.instance
           .collection("Users")
@@ -23,6 +23,7 @@ class Firestore {
           DateTime.now(),
         ),
         "imageUrl": "",
+        "password":password,
       }).then((value) => print("Done =========================="));
     } catch (e) {
       print(e);

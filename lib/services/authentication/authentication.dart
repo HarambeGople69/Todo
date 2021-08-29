@@ -17,6 +17,7 @@ class Auth {
           .then(
             (value) => Firestore().addUser(
               FirebaseAuth.instance.currentUser!.uid,
+              password,
               email,
               name,
             ),

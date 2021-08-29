@@ -1,4 +1,4 @@
-package com.Utsav123.Shrestha
+package com.GetOrganized123
 
 import io.flutter.embedding.android.FlutterActivity
 

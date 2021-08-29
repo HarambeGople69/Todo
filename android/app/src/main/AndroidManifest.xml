@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.Utsav123.Shrestha">
+    package="com.GetOrganized123">
    <application
         android:label="Get Organized"
         android:icon="@mipmap/launcher_icon">

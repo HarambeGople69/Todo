@@ -58,7 +58,7 @@ class _EditPageState extends State<EditPage> {
       titleController.text= widget.taskmodel.title;
       descriptionController.text = widget.taskmodel.description;
       uid = FirebaseAuth.instance.currentUser!.uid;
-      fromdate =widget.taskmodel.fromDate.toDate();
+      fromdate =widget.taskmodel.fromDate.toDate().add(Duration(minutes: 1),);
       fromEventController.text = Utils().customDate( widget.taskmodel.fromDate.toDate());
       todate =widget.taskmodel.todate.toDate(); 
       toEventController.text = Utils().customDate( widget.taskmodel.todate.toDate());
@@ -164,12 +164,43 @@ class _EditPageState extends State<EditPage> {
                       ),
                       readOnly: true,
                       onTap: () async {
-                        // DateTime initialTime = DateTime.now();
+                        // DateTime? date = await showDatePicker(
+                        //   context: context,
+                        //   initialDate: fromdate,
+                        //   firstDate: DateTime.now(),
+                        //   lastDate: DateTime(2022),
+                        // );
+                        // if (date == null) {
+                        //   return null;
+                        // }
+                        // final time = await showTimePicker(
+                        //   context: context,
+                        //   initialTime: TimeOfDay(
+                        //       hour: fromdate.hour,
+                        //       minute: fromdate.minute),
+                        // );
+                        // if (time == null) {
+                        //   return null;
+                        // }
+                        // setState(() {
+                        //   fromdate = DateTime(
+                        //     date.year,
+                        //     date.month,
+                        //     date.day,
+                        //     time.hour,
+                        //     time.minute,
+                        //   );
+                        //   fromEventController.text =
+                        //       Utils().customDate(fromdate);
+                        // });
                         DateTime? date = await showDatePicker(
                           context: context,
+                          // helpText:"Help",
+                          
                           initialDate: fromdate,
                           firstDate: DateTime.now(),
                           lastDate: DateTime(2022),
+                          
                         );
                         if (date == null) {
                           return null;
@@ -205,7 +236,7 @@ class _EditPageState extends State<EditPage> {
                     ),
                     OurSizedHeight(),
                     TextField(
-                      controller: toEventController,
+                       controller: toEventController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(30),
@@ -218,8 +249,35 @@ class _EditPageState extends State<EditPage> {
                       ),
                       readOnly: true,
                       onTap: () async {
-                        // DateTime initialTime = DateTime.now();
-                        DateTime? date = await showDatePicker(
+                      //   DateTime? date = await showDatePicker(
+                      //     context: context,
+                      //     initialDate: todate,
+                      //     firstDate: fromdate
+                      //     lastDate: DateTime(2050),
+                      //   );
+                      //   if (date == null) {
+                      //     return null;
+                      //   }
+                      //   final time = await showTimePicker(
+                      //     context: context,
+                      //     initialTime: TimeOfDay(
+                      //         hour: todate.hour,
+                      //         minute: todate.minute),
+                      //   );
+                      //   if (time == null) {
+                      //     return null;
+                      //   }
+                      //   setState(() {
+                      //     todate = DateTime(
+                      //       date.year,
+                      //       date.month,
+                      //       date.day,
+                      //       time.hour,
+                      //       time.minute,
+                      //     );
+                      //     toEventController.text = Utils().customDate(todate);
+                      //   });
+                      DateTime? date = await showDatePicker(
                           context: context,
                           initialDate: todate,
                           firstDate: fromdate

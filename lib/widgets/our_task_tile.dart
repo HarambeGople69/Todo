@@ -23,10 +23,9 @@ class OurListtile extends StatelessWidget {
     required this.todate,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
-  final date2 = DateTime.now();
+    final date2 = DateTime.now();
 
     ColorLizer colorlizer = ColorLizer();
     return Slidable(
@@ -95,7 +94,7 @@ class OurListtile extends StatelessWidget {
                   ],
                 ),
               ),
-              (todate.difference(date2).inDays != 0)
+              (todate.difference(date2).inDays > 0)
                   ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -116,26 +115,40 @@ class OurListtile extends StatelessWidget {
                         ),
                       ],
                     )
-                  : Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Alert",
-                          style: TextStyle(
-                              fontSize: ScreenUtil().setSp(17),
-                              fontWeight: FontWeight.w600,
-                              color: Colors.red),
-                        ),
-                        Text(
-                          "${todate.difference(date2).inDays} days",
-                          style: TextStyle(
-                            fontSize: ScreenUtil().setSp(15),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    )
+                  : (todate.difference(date2).inDays == 0)
+                      ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Alert",
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(17),
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red),
+                            ),
+                            Text(
+                              "${todate.difference(date2).inDays} days",
+                              style: TextStyle(
+                                fontSize: ScreenUtil().setSp(15),
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
+                        )
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              "Ended",
+                              style: TextStyle(
+                                  fontSize: ScreenUtil().setSp(17),
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.red),
+                            ),
+                          ],
+                        )
             ],
           ),
         ),
